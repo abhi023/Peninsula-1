@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Code">
+      <UniqueIdentifier>{449687fe-18b2-4257-87f4-7a8e589d936b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics">
+      <UniqueIdentifier>{876df710-bf06-46c6-b474-df8cdb0bd49a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Graphics\Shaders">
+      <UniqueIdentifier>{42bc2dfa-087b-4062-9863-75544b517707}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Core">
+      <UniqueIdentifier>{93c547a4-e111-4d14-97c9-8e94ea57118a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\External">
+      <UniqueIdentifier>{50019fc1-b79d-4860-abc5-f9cca560c863}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\User Interface">
+      <UniqueIdentifier>{7cabb509-7730-4b19-8d1e-0d1792765055}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{0a895883-a68b-4d48-be24-f55fa058a72c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Controls / Logic">
+      <UniqueIdentifier>{62484420-b8cd-4a8d-b690-f4401f3bba89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Mathematics">
+      <UniqueIdentifier>{04b1ba36-d79b-4ba1-9b88-32f4c6756883}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Graphics.h">
+      <Filter>Code\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Code\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Code\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Code\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="TextHelper.h">
+      <Filter>Code\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Code\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="peninsula.h">
+      <Filter>Code\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Control.h">
+      <Filter>Code\Controls / Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="userinterface.h">
+      <Filter>Code\User Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Environment.h">
+      <Filter>Code\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="mathcore.h">
+      <Filter>Code\Mathematics</Filter>
+    </ClInclude>
+    <ClInclude Include="matrix.h">
+      <Filter>Code\Mathematics</Filter>
+    </ClInclude>
+    <ClInclude Include="MatrixStack.h">
+      <Filter>Code\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="quaternion.h">
+      <Filter>Code\Mathematics</Filter>
+    </ClInclude>
+    <ClInclude Include="Marker.h">
+      <Filter>Code\Graphics</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Graphics.cpp">
+      <Filter>Code\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Code\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Code\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Code\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="TextHelper.cpp">
+      <Filter>Code\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="peninsula.cpp">
+      <Filter>Code\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Code\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="WinMain.cpp">
+      <Filter>Code\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Control.cpp">
+      <Filter>Code\Controls / Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="userinterface.cpp">
+      <Filter>Code\User Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="Environment.cpp">
+      <Filter>Code\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="MatrixStack.cpp">
+      <Filter>Code\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Marker.cpp">
+      <Filter>Code\Graphics</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Header.hlsli">
+      <Filter>Code\Graphics\Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="PixelShader.hlsl">
+      <Filter>Code\Graphics\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="VertexShader.hlsl">
+      <Filter>Code\Graphics\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="PixelShader_Mark.hlsl">
+      <Filter>Code\Graphics\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="VertexShader_Mark.hlsl">
+      <Filter>Code\Graphics\Shaders</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Peninsula.rc">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon.ico">
+      <Filter>Resources</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

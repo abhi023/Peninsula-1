@@ -11,14 +11,14 @@ void ExceptionHandler()
 	{
 		wstring msg(str.begin(), str.end());
 
-		MessageBoxW(nullptr, msg.c_str(), nullptr, MB_ICONERROR);
+		MessageBox(nullptr, msg.c_str(), nullptr, MB_ICONERROR);
 
 		terminate();
 	}
 
 	catch (const wstring& str)
 	{
-		MessageBoxW(nullptr, str.c_str(), nullptr, MB_ICONERROR);
+		MessageBox(nullptr, str.c_str(), nullptr, MB_ICONERROR);
 
 		terminate();
 	}
@@ -29,7 +29,7 @@ void ExceptionHandler()
 
 		msg = L"An error has occurred:\n\t" + msg + L" (" + to_wstring(hr) + L")";
 
-		MessageBoxW(nullptr, msg.c_str(), nullptr, MB_ICONERROR);
+		MessageBox(nullptr, msg.c_str(), nullptr, MB_ICONERROR);
 
 		terminate();
 	} 
@@ -38,6 +38,8 @@ void ExceptionHandler()
 	{
 		string msg = "C++ Exception occurred: \n" + string(e.what()) + "\nProgram will now terminate";
 
-		MessageBoxA(nullptr, msg.c_str(), nullptr, MB_ICONERROR);
+		wstring wmsg(msg.begin(), msg.end());
+
+		MessageBox(nullptr, wmsg.c_str(), nullptr, MB_ICONERROR);
 	}
 }

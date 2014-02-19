@@ -1,7 +1,9 @@
-#define MAX_MATERIALS 256
 Texture2D txDiffuse : register(t0);
 Texture2D txNormals : register(t1);
 Texture2D txOpacity : register(t2);
+
+Texture2D txWorldHeightmap : register(t3);
+Texture2D txWorldTextureCube : register(t4);
 
 SamplerState samLinear : register(s0);
 
@@ -38,5 +40,17 @@ struct PS_INPUT
 {
 	float4 pos : SV_POSITION;
 	float3 norm : NORMAL;
+	float2 tex : TEXCOORD0;
+};
+
+struct ENV_VS_INPUT
+{
+	float4 pos : POSITION;
+	float2 tex : TEXCOORD;
+};
+
+struct ENV_GS_INPUT
+{
+	float4 pos : SV_POSITION;
 	float2 tex : TEXCOORD0;
 };

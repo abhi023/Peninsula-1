@@ -75,6 +75,8 @@ private:
 
 	stopwatch frameratetimer;
 
+	bool m_bFullscreen;
+
 	double m_FPS;
 	bool display_debug_info;
 	
@@ -84,7 +86,7 @@ public:
 	CGraphics();
 	~CGraphics();
 
-	HRESULT Initialise(HWND hWnd);
+	HRESULT Initialise(HWND hWnd, bool bFullscreen);
 
 	HRESULT InitialiseResources();
 

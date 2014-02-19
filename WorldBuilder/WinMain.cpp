@@ -42,6 +42,29 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	}
 }
 
+LRESULT CALLBACK TreeDlgProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	switch (uMsg)
+	{
+	case WM_CREATE:
+		break;
+
+	case WM_SIZE:
+		break;
+
+	case WM_COMMAND:
+		break;
+
+	case WM_DESTROY:
+		break;
+
+	default:
+		break;
+	}
+
+	return DefWindowProc(hWnd, uMsg, wParam, lParam);
+}
+
 INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, char*, int)
 {
 	try 
@@ -64,6 +87,15 @@ INT WINAPI WinMain(HINSTANCE hInst, HINSTANCE, char*, int)
 			CW_USEDEFAULT, nullptr, nullptr, hInst, nullptr);
 		if (!hWnd)
 			throw "Failed to create main window";
+
+		wc.lpfnWndProc = TreeDlgProc;
+		wc.lpszClassName = L"TreeDlg";
+		if (!RegisterClassEx(&wc))
+			throw "Failed to register window class - tree dialog";
+
+		HWND hDlgWnd = CreateWindowEx(0, wc.lpszClassName, L"Scene", WS_DLGFRAME | WS_VISIBLE | WS_POPUP, CW_USEDEFAULT, CW_USEDEFAULT, 200, CW_USEDEFAULT, hWnd, nullptr, hInst, nullptr);
+		if (!hDlgWnd)
+			throw Win32Exception();
 
 		g_Graphics = make_shared<Direct3D11>();
 		g_Graphics->Initialise(hWnd);

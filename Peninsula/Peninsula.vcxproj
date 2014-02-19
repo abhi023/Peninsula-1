@@ -106,7 +106,10 @@
   <ItemGroup>
     <ClInclude Include="Control.h" />
     <ClInclude Include="Environment.h" />
+    <ClInclude Include="GameEntity.h" />
     <ClInclude Include="Graphics.h" />
+    <ClInclude Include="Physics.h" />
+    <ClInclude Include="thread_messages.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="mathcore.h" />
     <ClInclude Include="matrix.h" />
@@ -123,6 +126,7 @@
   <ItemGroup>
     <ClCompile Include="Control.cpp" />
     <ClCompile Include="Environment.cpp" />
+    <ClCompile Include="GameEntity.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Marker.cpp" />
     <ClInclude Include="Marker.h" />
@@ -134,7 +138,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="peninsula.cpp" />
+    <ClCompile Include="Physics.cpp" />
     <ClCompile Include="TextHelper.cpp" />
+    <ClCompile Include="thread_messages.cpp" />
     <ClCompile Include="userinterface.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
@@ -142,6 +148,16 @@
     <None Include="Header.hlsli" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="EnvironmentGeometryShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Geometry</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="EnvironmentVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="PixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>

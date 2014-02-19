@@ -5,23 +5,16 @@
 #include "TextHelper.h"
 #include "Control.h"
 #include "Environment.h"
+#include "GameEntity.h"
 
 #include "VertexShader.h"
 #include "PixelShader.h"
 
-extern Controls g_Controls;
+//extern shared_ptr<Controls> g_Controls;
+extern shared_ptr<Player> g_pHumanPlayer;
 extern array<bool, 256> bKeys;
 
-CGraphics::CGraphics() : m_hInstance(nullptr), m_hWnd(nullptr),
-	m_mView(XMMatrixIdentity()), m_mProjection(XMMatrixIdentity()),
-	m_pd2dFactory(nullptr), m_pd2dBackBufferRT(nullptr), m_pDebugInfoText(nullptr),
-	m_DriverType(D3D_DRIVER_TYPE_NULL), m_FeatureLevel(D3D_FEATURE_LEVEL_11_1),
-	m_pd3dDevice(nullptr), m_pd3dImmediateContext(nullptr), m_pRenderTargetView(nullptr),
-	m_pDepthStencil(nullptr), m_pDepthStencilView(nullptr), m_pVertexShader(nullptr),
-	m_pPixelShader(nullptr), m_pInputLayout(nullptr), m_pCBView(nullptr),
-	m_pCBProjection(nullptr), m_pSamplerLinear(nullptr), m_pSwapChain(nullptr),
-	m_pdxgiDevice(nullptr), m_pdxgiAdapter(nullptr), m_pdxgiFactory(nullptr),
-	m_FPS(0), display_debug_info(true)
+CGraphics::CGraphics() : m_hInstance(nullptr), m_hWnd(nullptr),	m_mView(XMMatrixIdentity()), m_mProjection(XMMatrixIdentity()),	m_pd2dFactory(nullptr), m_pd2dBackBufferRT(nullptr), m_pDebugInfoText(nullptr),	m_DriverType(D3D_DRIVER_TYPE_NULL), m_FeatureLevel(D3D_FEATURE_LEVEL_11_1),	m_pd3dDevice(nullptr), m_pd3dImmediateContext(nullptr), m_pRenderTargetView(nullptr), m_pDepthStencil(nullptr), m_pDepthStencilView(nullptr), m_pVertexShader(nullptr), m_pPixelShader(nullptr), m_pInputLayout(nullptr), m_pCBView(nullptr), m_pCBProjection(nullptr), m_pSamplerLinear(nullptr), m_pSwapChain(nullptr), m_pdxgiDevice(nullptr), m_pdxgiAdapter(nullptr), m_pdxgiFactory(nullptr), m_bFullscreen(false), m_FPS(0), display_debug_info(true)
 {
 	OutputDebugStringW(L"CGraphics created.\n");
 }
@@ -33,10 +26,11 @@ CGraphics::~CGraphics()
 }
 
 
-HRESULT CGraphics::Initialise(HWND hWnd)
+HRESULT CGraphics::Initialise(HWND hWnd, bool bFullscreen)
 {
 	m_hWnd = hWnd;
-	m_hInstance = GetModuleHandleW(nullptr);
+	m_hInstance = GetModuleHandle(nullptr);
+	m_bFullscreen = bFullscreen;
 
 	m_DriverType = D3D_DRIVER_TYPE_NULL;
 	m_FeatureLevel = D3D_FEATURE_LEVEL_11_0;
@@ -51,14 +45,14 @@ HRESULT CGraphics::Initialise(HWND hWnd)
 	createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
 
-	vector<D3D_DRIVER_TYPE> driverTypes =
+	vector<D3D_DRIVER_TYPE> driverTypes 
 	{
 		D3D_DRIVER_TYPE_HARDWARE,
 		D3D_DRIVER_TYPE_WARP,
 		D3D_DRIVER_TYPE_REFERENCE,
 	};
 
-	vector<D3D_FEATURE_LEVEL> featureLevels =
+	vector<D3D_FEATURE_LEVEL> featureLevels 
 	{
 		D3D_FEATURE_LEVEL_11_1,
 		D3D_FEATURE_LEVEL_11_0,
@@ -77,7 +71,7 @@ HRESULT CGraphics::Initialise(HWND hWnd)
 	sd.OutputWindow = m_hWnd;
 	sd.SampleDesc.Count = 1;
 	sd.SampleDesc.Quality = 0;
-	sd.Windowed = TRUE;
+	sd.Windowed = bFullscreen == true ? FALSE : TRUE;
 
 	HRESULT hr = S_OK;
 
@@ -112,12 +106,12 @@ HRESULT CGraphics::Initialise(HWND hWnd)
 	m_pd3dDevice->CheckFeatureSupport(D3D11_FEATURE_THREADING, &threadStruct, sizeof(threadStruct));
 	if (threadStruct.DriverConcurrentCreates == FALSE)
 	{
-		OutputDebugStringW(L"Multithreaded resource creation is not supported by the graphics hardware in this machine. This may result in slower loading times.\n");
+		OutputDebugString(L"Multithreaded resource creation is not supported by the graphics hardware in this machine. This may result in slower loading times.\n");
 	}
 
 	if (threadStruct.DriverCommandLists == FALSE)
 	{
-		OutputDebugStringW(L"Multithreaded rendering is not supported by the graphics hardware in this machine. This may result in reduced framerates and graphics capabilities.\n");
+		OutputDebugString(L"Multithreaded rendering is not supported by the graphics hardware in this machine. This may result in reduced framerates and graphics capabilities.\n");
 	}
 
 	// create depth stencil texture
@@ -155,7 +149,7 @@ HRESULT CGraphics::Initialise(HWND hWnd)
 		throw error(__FILE__, __LINE__, hr);
 
 	// create input layout
-	vector<D3D11_INPUT_ELEMENT_DESC> layout =
+	vector<D3D11_INPUT_ELEMENT_DESC> layout 
 	{
 		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
 		{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
@@ -263,8 +257,8 @@ HRESULT CGraphics::Initialise(HWND hWnd)
 
 	// set viewport
 	D3D11_VIEWPORT vp;
-	vp.Width = (FLOAT)width;
-	vp.Height = (FLOAT)height;
+	vp.Width = static_cast<float>(width);
+	vp.Height = static_cast<float>(height);
 	vp.MinDepth = 0.0f;
 	vp.MaxDepth = 1.0f;
 	vp.TopLeftX = 0;
@@ -359,7 +353,6 @@ void CGraphics::Render()
 	m_pd3dImmediateContext->VSSetConstantBuffers(0, 1, &m_pCBView.p);
 	m_pd3dImmediateContext->VSSetConstantBuffers(1, 1, &m_pCBProjection.p);
 	m_pd3dImmediateContext->VSSetConstantBuffers(2, 1, &m_MatrixStack.m_pCBWorld.p);
-	m_pd3dImmediateContext->VSSetConstantBuffers(3, 1, &CMaterial::pCBMaterial.p);
 
 	// SET PIXEL SHADER AND CONSTANT BUFFERS
 	m_pd3dImmediateContext->PSSetShader(m_pPixelShader, nullptr, 0);
@@ -370,7 +363,10 @@ void CGraphics::Render()
 	static float t = 0.f;
 	t += 0.05f;
 
-	XMMATRIX pos = XMMatrixTranslationFromVector(-g_Controls.pos);
+	XMVECTOR translation = _mm_load_ps(g_pHumanPlayer->xyz);
+	translation = _mm_mul_ps(translation, _mm_set_ps1(-1.f));
+
+	XMMATRIX pos = XMMatrixTranslationFromVector(translation);
 
 	m_MatrixStack.push_last(pos);
 
@@ -394,20 +390,25 @@ void CGraphics::Render()
 	if (m_pd2dBackBufferRT && display_debug_info == true)
 	{
 		wstringstream fpsoutput;
+
 		if (m_FPS == INFINITY)
-			fpsoutput << ">1000 FPS"; //L"\u221E FPS";
+			fpsoutput << L">1000 FPS"; //L"\u221E FPS";
 		else
 			fpsoutput << m_FPS << L" FPS";
+
+		fpsoutput.precision(4);
+		fpsoutput << L" (" << 1000 / m_FPS << L"ms)";
 		
 		wstring wstr = fpsoutput.str();
 
-		wstring posoutput = L"x: " + to_wstring(XMVectorGetX(g_Controls.pos)) +
-			L"\ty: " + to_wstring(XMVectorGetY(g_Controls.pos)) +
-			L"\tz: " + to_wstring(XMVectorGetZ(g_Controls.pos)) +
+		wstring posoutput = 
+			L"x: " + to_wstring(g_pHumanPlayer->x) +
+			L"\ty: " + to_wstring(g_pHumanPlayer->y) +
+			L"\tz: " + to_wstring(g_pHumanPlayer->z) +
 
-			L"\nroll: " + to_wstring(XMVectorGetZ(g_Controls.rot)) +
-			L"\tpitch: " + to_wstring(XMVectorGetX(g_Controls.rot)) +
-			L"\tyaw: " + to_wstring(XMVectorGetY(g_Controls.rot));
+			L"\nroll: " + to_wstring(g_pHumanPlayer->roll) +
+			L"\tpitch: " + to_wstring(g_pHumanPlayer->pitch) +
+			L"\tyaw: " + to_wstring(g_pHumanPlayer->yaw);
 
 		m_pd2dBackBufferRT->BeginDraw();
 

@@ -20,14 +20,12 @@ const map<aiReturn, string> assimperrortext =
 	{ aiReturn_OUTOFMEMORY, "Not enough memory was available to perform the operation (-3)" }
 };
 
-CModel::CModel()
+CModel::CModel() : m_pVertexShader(nullptr), m_pPixelShader(nullptr), m_pGeometryShader(nullptr)
 {
-	OutputDebugStringW(L"CModel created\n");
 }
 
 CModel::~CModel()
 {
-	OutputDebugStringW(L"CModel destroyed\n");
 }
 
 void CModel::ProcessMaterials(const aiScene* pScene, CComPtr<ID3D11Device> pDevice, CComPtr<ID3D11DeviceContext> pContext)
@@ -398,6 +396,26 @@ void CModel::CalculateNormals(Vertex* vecVerts, vector<Vertex>::size_type size, 
 
 void CModel::Render(CComPtr<ID3D11DeviceContext> context)
 {
+	CComPtr<ID3D11VertexShader> pVSDefault = nullptr;
+	CComPtr<ID3D11PixelShader> pPSDefault = nullptr;
+	CComPtr<ID3D11GeometryShader> pGSDefault = nullptr;
+
+	if (m_pVertexShader != nullptr)
+	{
+		context->VSGetShader(&pVSDefault.p, nullptr, 0);
+		context->VSSetShader(m_pVertexShader, nullptr, 0);
+	}
+	if (m_pPixelShader != nullptr)
+	{
+		context->PSGetShader(&pPSDefault.p, nullptr, 0);
+		context->PSSetShader(m_pPixelShader, nullptr, 0);
+	}
+	if (m_pGeometryShader != nullptr)
+	{
+		context->GSGetShader(&pGSDefault.p, nullptr, 0);
+		context->GSSetShader(m_pGeometryShader, nullptr, 0);
+	}
+
 	for (const auto& mesh_itr : meshes)
 	{
 		// sanity checks
@@ -419,5 +437,19 @@ void CModel::Render(CComPtr<ID3D11DeviceContext> context)
 		//context->IASetPrimitiveTopology(parts_it.mTopology);
 		context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		context->DrawIndexed(mesh_itr->m_uIndices, 0, 0);
+	}
+
+	// if we changed the shader away from the default, set it back
+	if (pVSDefault != nullptr)
+	{
+		context->VSSetShader(pVSDefault, nullptr, 0);
+	}
+	if (pPSDefault != nullptr)
+	{
+		context->PSSetShader(pPSDefault, nullptr, 0);
+	}
+	if (pGSDefault != nullptr)
+	{
+		context->GSSetShader(pGSDefault, nullptr, 0);
 	}
 }

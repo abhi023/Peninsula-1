@@ -42,4 +42,17 @@ void ExceptionHandler()
 
 		MessageBox(nullptr, wmsg.c_str(), nullptr, MB_ICONERROR);
 	}
+
+	catch (Win32Exception)
+	{
+		HRESULT hr = HRESULT_FROM_WIN32(GetLastError());
+		
+		wstring msg(_com_error(hr).ErrorMessage());
+
+		msg = L"An error has occurred:\n\t" + msg + L" (" + to_wstring(hr) + L")";
+
+		MessageBox(nullptr, msg.c_str(), nullptr, MB_ICONERROR);
+
+		terminate();
+	}
 }

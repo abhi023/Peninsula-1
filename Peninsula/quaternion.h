@@ -53,11 +53,29 @@ Vector VectorCrossRH(const Vector& a, const Vector& b)
 	return ret;
 }
 
+__m128 VectorCrossRH(const __m128& a, const __m128& b)
+{
+	Vector va, vb;
+	va.sse = a;
+	vb.sse = b;
+
+	return VectorCrossRH(va, vb).sse;
+}
+
 Vector VectorCrossLH(const Vector& a, const Vector& b)
 {
 	Vector ret = VectorCrossRH(a, b);
 	ret.y *= -1;
 	return ret;
+}
+
+__m128 VectorCrossLH(const __m128& a, const __m128& b)
+{
+	Vector va, vb;
+	va.sse = a;
+	vb.sse = b;
+
+	return VectorCrossLH(va, vb).sse;
 }
 
 float VectorTripleScalarProductRH(const Vector& a, const Vector& b, const Vector& c)

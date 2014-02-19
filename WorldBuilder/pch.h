@@ -47,3 +47,5 @@ using namespace std;
 using namespace DirectX;
 
 void ExceptionHandler();
+
+class Win32Exception {};

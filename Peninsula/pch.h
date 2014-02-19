@@ -49,9 +49,11 @@
 #include <fstream>
 #include <algorithm>
 #include <thread>
-#include <complex>
+#include <atomic>
 #include <type_traits>
 #include <cstdlib>
+#include <list>
+#include <mutex>
 
 // Libraries
 #pragma comment(lib, "d3d11.lib")

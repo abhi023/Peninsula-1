@@ -22,11 +22,11 @@
     <Filter Include="Resources">
       <UniqueIdentifier>{0a895883-a68b-4d48-be24-f55fa058a72c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Code\Controls / Logic">
-      <UniqueIdentifier>{62484420-b8cd-4a8d-b690-f4401f3bba89}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Code\Mathematics">
       <UniqueIdentifier>{04b1ba36-d79b-4ba1-9b88-32f4c6756883}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Code\Controls / Logic / Gameplay">
+      <UniqueIdentifier>{62484420-b8cd-4a8d-b690-f4401f3bba89}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -52,7 +52,7 @@
       <Filter>Code\Core</Filter>
     </ClInclude>
     <ClInclude Include="Control.h">
-      <Filter>Code\Controls / Logic</Filter>
+      <Filter>Code\Controls / Logic / Gameplay</Filter>
     </ClInclude>
     <ClInclude Include="userinterface.h">
       <Filter>Code\User Interface</Filter>
@@ -77,6 +77,15 @@
     </ClInclude>
     <ClInclude Include="Marker.h">
       <Filter>Code\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="thread_messages.h">
+      <Filter>Code\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEntity.h">
+      <Filter>Code\Controls / Logic / Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="Physics.h">
+      <Filter>Code\Controls / Logic / Gameplay</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -105,7 +114,7 @@
       <Filter>Code\Core</Filter>
     </ClCompile>
     <ClCompile Include="Control.cpp">
-      <Filter>Code\Controls / Logic</Filter>
+      <Filter>Code\Controls / Logic / Gameplay</Filter>
     </ClCompile>
     <ClCompile Include="userinterface.cpp">
       <Filter>Code\User Interface</Filter>
@@ -118,6 +127,15 @@
     </ClCompile>
     <ClCompile Include="Marker.cpp">
       <Filter>Code\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="thread_messages.cpp">
+      <Filter>Code\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="GameEntity.cpp">
+      <Filter>Code\Controls / Logic / Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="Physics.cpp">
+      <Filter>Code\Controls / Logic / Gameplay</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +154,12 @@
       <Filter>Code\Graphics\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="VertexShader_Mark.hlsl">
+      <Filter>Code\Graphics\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="EnvironmentVertexShader.hlsl">
+      <Filter>Code\Graphics\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="EnvironmentGeometryShader.hlsl">
       <Filter>Code\Graphics\Shaders</Filter>
     </FxCompile>
   </ItemGroup>
